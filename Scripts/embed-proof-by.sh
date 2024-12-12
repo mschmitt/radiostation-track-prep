@@ -32,10 +32,12 @@ do
 		printf "Already tagged: %s\n" "${file}"
 		continue
 	fi
+	url="$(head -n 1 "$(dirname "${file}")/url.txt")
 	printf "Tagging: %s\n" "${file}"
 	eyeD3 -2 --user-text-frame "Local usage note":"This file was downloaded under a Creative Commons CC-BY license and is being used accordingly. Screenshot archived and embedded as proof." "${file}"
 	eyeD3 -2 --add-image "$(dirname "${file}")/proof.png:OTHER:Proof of license at download" "${file}"
 	eyeD3 -2 --user-text-frame "Local license tag":"CC-BY" "${file}"
+	eyeD3 -2 --user-text-frame "Local download URL":"${url}" "${file}"
 	setfattr --name user.license_tagged --value true "${file}"
 done
 
