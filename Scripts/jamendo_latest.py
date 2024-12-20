@@ -2,10 +2,15 @@
 import sys
 import requests
 import json
-import tomllib
 from tabulate import tabulate
 from pathlib import Path
 from icecream import ic
+
+# Cygwin compat fallback
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 # Read config
 with open(Path(__file__).with_name('jamendo.toml'), "rb") as ini:
