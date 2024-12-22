@@ -27,7 +27,8 @@ do
 	else
 		continue
 	fi
-	if [[ "$(getfattr --only-values -n user.license_tagged "${file}")" == 'true' ]]
+	printf -v done_file "%s/.%s.tagged" "$(dirname "${file}")" "$(basename "${file}")"
+	if [[ -e "${done_file}" ]]
 	then
 		printf "Already tagged: %s\n" "${file}"
 		continue
@@ -40,7 +41,7 @@ do
 		--user-text-frame "Local license tag":"CC-BY" \
 		--user-text-frame "Local download URL":"${url}" \
 		"${file}"
-	setfattr --name user.license_tagged --value true "${file}"
+	touch "${done_file}"
 done
 
 for i in "${noproof[@]}"
