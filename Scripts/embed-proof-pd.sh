@@ -27,8 +27,9 @@ do
 	else
 		continue
 	fi
-	printf -v done_file "%s/.%s.tagged" "$(dirname "${file}")" "$(basename "${file}")"
-	if [[ -e "${done_file}" ]]
+	printf -v done_file "%s/tagged.txt" "$(dirname "${file}")"
+	filename_slug="$(slugify "${file}")"
+	if grep -q "${filename_slug}" "${done_file}"
 	then
 		printf "Already tagged: %s\n" "${file}"
 		continue
@@ -41,7 +42,7 @@ do
 		--user-text-frame "Local license tag":"CC0/PD" \
 		--user-text-frame "Local download URL":"${url}" \
 		"${file}"
-	touch "${done_file}"
+	echo "${filename_slug}" >> "${done_file}"
 done
 
 for i in "${noproof[@]}"

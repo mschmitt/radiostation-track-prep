@@ -1,1 +1,1 @@
-Superproject: https://github.com/mschmitt/radiostation
+Superproject: <https://github.com/mschmitt/radiostation>
