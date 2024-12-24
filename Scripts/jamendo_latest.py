@@ -24,7 +24,7 @@ query_options={
         'order': 'releasedate',
         'limit': 200,
         'tags': 'electronic',
-        'datebetween': '2011-01-01_2011-12-31',
+        'datebetween': '2012-01-01_2012-12-31',
         'ccsa': False,
         'ccnd': False,
         'ccnc': False
@@ -34,6 +34,6 @@ r_tracks=requests.get(f"{api_base}", query_options)
 
 table = list()
 for track in reversed((r_tracks.json())['results']):
-    table.append([track['releasedate'], track['name'][:30], track['artist_name'][:30], f"https://jamen.do/l/{track['album_id']}", f"https://jamen.do/t/{track['id']}"])
+    table.append([track['releasedate'], track['name'][:30], track['artist_name'][:30], track['album_name'], f"https://jamen.do/l/{track['album_id']}", f"https://jamen.do/t/{track['id']}"])
 
 print(tabulate(table))
