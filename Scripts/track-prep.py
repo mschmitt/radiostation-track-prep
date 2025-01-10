@@ -28,7 +28,7 @@ for file in args.files:
     try:
         with open(done_file, 'r') as d:
             if file_slug in d.read():
-                print(f"Already tagged: {file}")
+                #print(f"Already tagged: {file}")
                 continue
     except:
         pass
