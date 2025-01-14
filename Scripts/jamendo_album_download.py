@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import os
 import requests
 import slugify
 import json
@@ -60,7 +61,7 @@ with open('jamendo_tmp.zip', 'wb') as tmpzip:
 
 with ZipFile('jamendo_tmp.zip') as z:
     z.extractall(album_slug)
-Path.unlink('jamendo_tmp.zip')
+os.unlink('jamendo_tmp.zip')
 
 with open(f"{album_slug}/url.txt", 'w') as urltxt:
     urltxt.write(r_album.json()['results'][0]['shareurl'])
@@ -72,6 +73,5 @@ for track in (r_tracks.json())['results']:
 output += tabulate(sorted(table, key=itemgetter(0)), headers=['#', 'Track', 'Artist', 'License URL'])
 output += "\n"
 texttoimage.convert(output, font_name=f"{Path(__file__).resolve().parent}/LiberationMono-Regular.ttf", image_file=f"{album_slug}/proof.png", color="white")
-
-
+print(output)
 
