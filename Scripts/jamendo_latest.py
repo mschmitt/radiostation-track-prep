@@ -18,10 +18,9 @@ with open(Path(__file__).with_name('jamendo.toml'), "rb") as ini:
     config = tomllib.load(ini)
 
 parser = argparse.ArgumentParser(description='Generate Jamendo listing for timeframe.')
-parser.add_argument('-f', '--from', help='start date YYYY-MM-DD', required=True)
-parser.add_argument('-t', '--to', help='end date YYYY-MM-DD', required=True)
+parser.add_argument('-f', '--from-date', help='start date YYYY-MM-DD', required=True)
+parser.add_argument('-t', '--to-date', help='end date YYYY-MM-DD', required=True)
 args = parser.parse_args()
-ic(args)
 
 api_base = 'https://api.jamendo.com/v3.0'
 
@@ -30,7 +29,7 @@ query_options={
         'format': 'json',
         'order': 'releasedate',
         'limit': 200,
-        'datebetween': f"{args.from}_{args.to}",
+        'datebetween': f"{args.from_date}_{args.to_date}",
         'ccsa': False,
         'ccnd': False,
         'ccnc': False
@@ -98,7 +97,7 @@ def mmss (secs):
 
 table = list()
 for entry in raw_order:
-    hyperlink = f"<a href='{entry['shorturl']}'>{entry['name']}</a>"
+    hyperlink = f"<a href='{entry['shorturl']}' target='_blank'>{entry['name']}</a>"
     if entry['AA_order_type'] == 'single':
         table.append(['Single', entry['releasedate'], entry['artist_name'], hyperlink, mmss(entry['duration'])])
     if entry['AA_order_type'] == 'album':
