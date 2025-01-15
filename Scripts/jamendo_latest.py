@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 import sys
-import requests
-import json
 import math
-import time
-from tabulate import tabulate
 from pathlib import Path
-from operator import itemgetter
+import requests
+from tabulate import tabulate
 from icecream import ic
+import argparse
 
 # Cygwin compat fallback
 if sys.version_info >= (3, 11):
@@ -17,16 +15,22 @@ else:
 
 # Read config
 with open(Path(__file__).with_name('jamendo.toml'), "rb") as ini:
-        config = tomllib.load(ini)
+    config = tomllib.load(ini)
+
+parser = argparse.ArgumentParser(description='Generate Jamendo listing for timeframe.')
+parser.add_argument('-f', '--from', help='start date YYYY-MM-DD', required=True)
+parser.add_argument('-t', '--to', help='end date YYYY-MM-DD', required=True)
+args = parser.parse_args()
+ic(args)
 
 api_base = 'https://api.jamendo.com/v3.0'
 
 query_options={
-        'client_id': config['jamendo_client_id'], 
-        'format': 'json', 
+        'client_id': config['jamendo_client_id'],
+        'format': 'json',
         'order': 'releasedate',
         'limit': 200,
-        'datebetween': '2016-01-01_2016-02-01',
+        'datebetween': f"{args.from}_{args.to}",
         'ccsa': False,
         'ccnd': False,
         'ccnc': False
@@ -50,7 +54,7 @@ for track in tracks:
         track['AA_order_type'] = 'single'
         raw_order.append(track)
     elif track['album_id'] not in album_ids:
-        # This is a track from an album that features at least one relevant song. 
+        # This is a track from an album that features at least one relevant song.
         album_ids.add(track['album_id'])
         # Retrieve details for this album.
         try:
@@ -86,7 +90,7 @@ for track in tracks:
         #    this_album_track.pop('waveform', None)
         #    this_album_track['AA_order_type'] = 'track'
         #    raw_order.append(this_album_track)
-        print(f"entries={len(raw_order)}, requests={request_count}")
+        #print(f"entries={len(raw_order)}, requests={request_count}")
         #time.sleep(1)
 
 def mmss (secs):
