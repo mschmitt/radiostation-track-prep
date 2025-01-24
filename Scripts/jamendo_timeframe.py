@@ -97,7 +97,6 @@ def mmss (secs):
 
 table = list()
 for entry in raw_order:
-    ic(entry)
     hyperlink = f"<a href='{entry['shareurl']}' target='_blank'>{entry['name']}</a>"
     if entry['AA_order_type'] == 'single':
         table.append(['Single', entry['releasedate'], entry['artist_name'], hyperlink, mmss(entry['duration'])])
