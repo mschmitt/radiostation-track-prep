@@ -24,7 +24,7 @@ with open(Path(__file__).with_name('jamendo.toml'), "rb") as ini:
         config = tomllib.load(ini)
 
 album_url = sys.argv[1]
-album_id = re.search(r"\ba(\d{2,})", album_url).groups()[0]
+album_id = re.search(r"(\ba|album/)(\d{2,})", album_url).groups()[1]
 
 api_base_track = 'https://api.jamendo.com/v3.0/tracks/'
 
