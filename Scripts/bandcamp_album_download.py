@@ -27,7 +27,7 @@ def hook(data):
     af.tag.track_num = data['info_dict']['track_number']
     af.tag.save()
 
-with yt_dlp.YoutubeDL({'progress_hooks': [hook]}) as ydl:
+with yt_dlp.YoutubeDL({'format': 'mp3-v0/mp3-128/mp3-320', 'progress_hooks': [hook]}) as ydl:
     ydl.download(url)
 
 with open('url.txt', 'w') as url_fh:
