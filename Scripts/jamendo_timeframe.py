@@ -47,7 +47,10 @@ except Exception as e:
 raw_order = list()
 album_ids = set()
 for track in tracks:
-    if track['album_id'] == '':
+    if track['audiodownload_allowed'] == False:
+        # This is not downloadable
+        pass
+    elif track['album_id'] == '':
         # This is a single.
         track.pop('waveform', None)
         track['AA_order_type'] = 'single'
